@@ -33,52 +33,73 @@ export default function Success() {
     <div style={styles.container}>
       <div style={styles.card}>
         {result ? (
-          <div style={styles.success}>
-            <div style={styles.icon}>✓</div>
-            <h1>¡Pago Confirmado!</h1>
-            <p style={styles.message}>
-              Tu transacción ha sido procesada correctamente.
+          <div style={styles.content}>
+            <div style={styles.successIcon}>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" style={styles.iconSvg}>
+                <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+                <polyline points="22 4 12 14.01 9 11.01"/>
+              </svg>
+            </div>
+            <h1 style={styles.title}>¡Pago Exitoso!</h1>
+            <p style={styles.subtitle}>
+              Tu transacción ha sido procesada correctamente
             </p>
 
             <div style={styles.details}>
-              <div style={styles.row}>
-                <span>ID Payphone:</span>
-                <strong>{result.id}</strong>
+              <div style={styles.detailRow}>
+                <span style={styles.detailLabel}>ID de Transacción</span>
+                <span style={styles.detailValue}>{result.id}</span>
               </div>
-              <div style={styles.row}>
-                <span>Tu ID Transacción:</span>
-                <strong>{result.clientTransactionId}</strong>
+              <div style={styles.divider}></div>
+              <div style={styles.detailRow}>
+                <span style={styles.detailLabel}>Referencia</span>
+                <span style={styles.detailValue}>{result.clientTransactionId}</span>
               </div>
-              <div style={styles.row}>
-                <span>Monto:</span>
-                <strong>${parseFloat(result.amount).toFixed(2)} USD</strong>
+              <div style={styles.divider}></div>
+              <div style={styles.detailRow}>
+                <span style={styles.detailLabel}>Monto Pagado</span>
+                <span style={styles.amountValue}>${parseFloat(result.amount).toFixed(2)} USD</span>
               </div>
-              <div style={styles.row}>
-                <span>Estado:</span>
-                <strong style={{ color: '#10b981' }}>
-                  {result.transactionStatus}
-                </strong>
+              <div style={styles.divider}></div>
+              <div style={styles.detailRow}>
+                <span style={styles.detailLabel}>Estado</span>
+                <span style={styles.statusBadge}>{result.transactionStatus}</span>
               </div>
-              <div style={styles.row}>
-                <span>Código de Autorización:</span>
-                <strong>{result.authorizationCode}</strong>
+              <div style={styles.divider}></div>
+              <div style={styles.detailRow}>
+                <span style={styles.detailLabel}>Autorización</span>
+                <span style={styles.detailValue}>{result.authorizationCode}</span>
               </div>
             </div>
 
+            <p style={styles.emailNote}>
+              📧 Recibirás un correo de confirmación con los detalles de tu compra
+            </p>
+
             <button style={styles.button} onClick={handleBackHome}>
-              Volver al Inicio
+              Volver a la Tienda
             </button>
           </div>
         ) : (
-          <div style={styles.error}>
-            <div style={styles.iconError}>✕</div>
-            <h1>Sin datos de transacción</h1>
-            <p>No se encontraron parámetros de pago válidos.</p>
+          <div style={styles.content}>
+            <div style={styles.errorIcon}>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" style={styles.iconSvg}>
+                <circle cx="12" cy="12" r="10"/>
+                <line x1="12" y1="8" x2="12" y2="12"/>
+                <line x1="12" y1="16" x2="12.01" y2="16"/>
+              </svg>
+            </div>
+            <h1 style={styles.title}>Sin información</h1>
+            <p style={styles.subtitle}>No se encontraron datos de la transacción</p>
             <button style={styles.button} onClick={handleBackHome}>
               Volver al Inicio
             </button>
           </div>
         )}
+      </div>
+      <div style={styles.footer}>
+        <span>Powered by</span>
+        <strong style={styles.footerBrand}>Payphone</strong>
       </div>
     </div>
   );
@@ -88,86 +109,130 @@ const styles = {
   container: {
     minHeight: '100vh',
     display: 'flex',
+    flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
-    background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+    background: 'linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #334155 100%)',
     padding: '20px',
-    fontFamily: "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif"
+    fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
   },
   card: {
-    background: 'white',
-    borderRadius: '12px',
-    padding: '40px',
-    maxWidth: '500px',
+    background: '#ffffff',
+    borderRadius: '24px',
+    padding: '48px 40px',
+    maxWidth: '480px',
     width: '100%',
-    boxShadow: '0 10px 40px rgba(0, 0, 0, 0.2)'
+    boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.25)'
   },
-  loading: {
-    textAlign: 'center',
-    padding: '40px'
+  content: {
+    textAlign: 'center'
   },
-  spinner: {
+  successIcon: {
+    width: '80px',
+    height: '80px',
+    borderRadius: '50%',
+    background: 'rgba(16, 185, 129, 0.1)',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    margin: '0 auto 24px'
+  },
+  errorIcon: {
+    width: '80px',
+    height: '80px',
+    borderRadius: '50%',
+    background: 'rgba(239, 68, 68, 0.1)',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    margin: '0 auto 24px'
+  },
+  iconSvg: {
     width: '40px',
     height: '40px',
-    border: '4px solid #f0f0f0',
-    borderTop: '4px solid #667eea',
-    borderRadius: '50%',
-    animation: 'spin 1s linear infinite',
-    margin: '0 auto 20px'
+    color: '#10b981'
   },
-  success: {
-    textAlign: 'center'
+  title: {
+    fontSize: '28px',
+    fontWeight: '700',
+    color: '#0f172a',
+    marginBottom: '8px'
   },
-  error: {
-    textAlign: 'center'
-  },
-  icon: {
-    fontSize: '60px',
-    color: '#10b981',
-    marginBottom: '20px'
-  },
-  iconError: {
-    fontSize: '60px',
-    color: '#ef4444',
-    marginBottom: '20px'
-  },
-  message: {
-    color: '#666',
-    marginBottom: '30px',
-    fontSize: '16px'
+  subtitle: {
+    fontSize: '16px',
+    color: '#64748b',
+    marginBottom: '32px'
   },
   details: {
-    background: '#f9f9f9',
-    padding: '20px',
-    borderRadius: '8px',
-    marginBottom: '30px',
+    background: '#f8fafc',
+    borderRadius: '16px',
+    padding: '24px',
+    marginBottom: '24px',
     textAlign: 'left'
   },
-  row: {
+  detailRow: {
     display: 'flex',
     justifyContent: 'space-between',
-    padding: '10px 0',
-    borderBottom: '1px solid #eee',
-    fontSize: '14px'
+    alignItems: 'center',
+    padding: '12px 0'
   },
-  note: {
-    background: '#eff6ff',
-    padding: '15px',
-    borderRadius: '8px',
-    color: '#0369a1',
-    marginBottom: '20px',
-    fontSize: '14px'
+  detailLabel: {
+    fontSize: '14px',
+    color: '#64748b',
+    fontWeight: '500'
+  },
+  detailValue: {
+    fontSize: '14px',
+    color: '#1e293b',
+    fontWeight: '600',
+    fontFamily: 'monospace'
+  },
+  amountValue: {
+    fontSize: '18px',
+    color: '#6366f1',
+    fontWeight: '700'
+  },
+  statusBadge: {
+    background: 'rgba(16, 185, 129, 0.1)',
+    color: '#10b981',
+    padding: '6px 14px',
+    borderRadius: '20px',
+    fontSize: '13px',
+    fontWeight: '600'
+  },
+  divider: {
+    height: '1px',
+    background: '#e2e8f0'
+  },
+  emailNote: {
+    fontSize: '14px',
+    color: '#64748b',
+    marginBottom: '24px',
+    padding: '12px 16px',
+    background: '#f1f5f9',
+    borderRadius: '10px'
   },
   button: {
-    padding: '12px 30px',
-    background: '#667eea',
+    width: '100%',
+    padding: '16px 32px',
+    background: 'linear-gradient(135deg, #6366f1 0%, #8b5cf6 50%, #a855f7 100%)',
     color: 'white',
     border: 'none',
-    borderRadius: '8px',
+    borderRadius: '12px',
     fontSize: '16px',
     fontWeight: '600',
     cursor: 'pointer',
-    transition: 'background 0.3s ease',
-    width: '100%'
+    transition: 'all 0.3s ease'
+  },
+  footer: {
+    marginTop: '24px',
+    display: 'flex',
+    alignItems: 'center',
+    gap: '8px',
+    color: '#64748b',
+    fontSize: '14px'
+  },
+  footerBrand: {
+    color: '#818cf8'
   }
 };

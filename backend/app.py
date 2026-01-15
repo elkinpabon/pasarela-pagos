@@ -8,7 +8,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 app = Flask(__name__)
-CORS(app, origins=[os.getenv('CORS_ORIGINS', 'http://localhost:3000')])
+CORS(app, resources={r"/api/*": {"origins": "*"}}, supports_credentials=True)
 
 # Payphone config
 PAYPHONE_TOKEN = os.getenv('PAYPHONE_TOKEN')
